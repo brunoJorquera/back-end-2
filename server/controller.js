@@ -16,7 +16,7 @@ module.exports = {
         let newHouse = {
             id: globalId,
             address,
-            price,
+            price: +price,
             imageURL
         }
         if(!address || !price || !imageURL){
@@ -33,13 +33,16 @@ module.exports = {
         let index = houses.findIndex(elem => elem.id === +id)
         if(houses[index].price === 0 && type === 'minus'){
             res.status(400).send('Do you think money grows on trees?')
+        } else if(houses[index].price <= 9999 && type === 'minus'){
+            houses[index].price -= houses[index].price
+            res.status(200).send(houses)
         } else if(type === 'minus'){
             houses[index].price -= 10000
             res.status(200).send(houses)
         } else if(type === 'plus'){
             houses[index].price += 10000
             res.status(200).send(houses)
-        } else{
+        } else {
             res.status(405)
         }
 
